@@ -1,4 +1,4 @@
-Package: BOD
+Package: LBOD
 Title: A package to estimate DALY burden of disease
 Version: 0.0.0.9000
 Authors@R: person("Antonio", "Lam", email = "linxiao6@sysu.edu.cn", role = c("aut", "cre"))
