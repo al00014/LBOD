@@ -72,7 +72,7 @@ get_burden<-function(disease='lung',
                      Agewt=0,
                      max_age_YLL=100,
                      max_age_YLD=90,# 'A:/r references/R functions/Disease_Burden_projection_project'
-                     filepath=paste0('./BOD/R') ){
+                     filepath=paste0('./R') ){
   if(YLD_perUnit!=personunits){
     stop('\n
          To calculate DALY, YLL and YLD should be in the same unit,
