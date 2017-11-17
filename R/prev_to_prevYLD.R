@@ -30,11 +30,11 @@ prev_to_prevYLD<-function(prevalent_age_labels,
     print('-----------------------------')
     
   } #filepath,'/YLD_related_function',
-  if(!(file.exists(paste0('./YLD_prevalent.R')))){
-    stop('\n
-         Cannot locate YLD_prevalent.R files,
-         Please check the integrity of source files.')
-  }
+  #if(!(file.exists(paste0('./YLD_prevalent.R')))){
+  #  stop('\n
+  #       Cannot locate YLD_prevalent.R files,
+  #       Please check the integrity of source files.')
+  #}
   
   if(ncol(input_population)>=ncol(prevalent_data)){
     population_data<-input_population[,1:ncol(prevalent_data)]
@@ -46,7 +46,7 @@ prev_to_prevYLD<-function(prevalent_age_labels,
   }
   
   # filepath,'/YLD_related_function',
-  source(paste0('./YLD_prevalent.R')) # YLD_nodefaults.R
+  #source(paste0('./YLD_prevalent.R')) # YLD_nodefaults.R
   incident_cols<-length(dimnames(prevalent_data)[[2]])
   
   

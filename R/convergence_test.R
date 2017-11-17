@@ -21,12 +21,12 @@ testing_SLE_convergence<-function(iter=100,
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
   # filepath,'/SLE_related_function',
-  if(file.exists(paste0('./prior_for_SLE.R'))==FALSE){
-    stop('\n
-         Missing prior_for_SLE.R file, cannot estimate priors,\n
-         Please check the integrity of source files')
-  } #filepath,'/SLE_related_function',
-  source(paste0('/prior_for_SLE.R'))
+  #if(file.exists(paste0('./prior_for_SLE.R'))==FALSE){
+  #  stop('\n
+  #       Missing prior_for_SLE.R file, cannot estimate priors,\n
+  #       Please check the integrity of source files')
+  #} #filepath,'/SLE_related_function',
+  #source(paste0('/prior_for_SLE.R'))
   age_labels<-data$Original_data$Age_groups
   population<-data$Original_data$population
   death_counts<-data$Original_data$death

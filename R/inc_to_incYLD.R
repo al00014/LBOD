@@ -37,13 +37,13 @@ inc_to_incYLD<-function(incident_age_labels,
     print('-----------------------------')
     
   }
-  if(!(file.exists(paste0('./YLD.R')))){ #filepath,'/YLD_related_function',
-    stop('\n
-         Cannot locate YLD.R files,
-         Please check the integrity of source files.')
-  }
+  #if(!(file.exists(paste0('./YLD.R')))){ #filepath,'/YLD_related_function',
+  #  stop('\n
+  #       Cannot locate YLD.R files,
+  #       Please check the integrity of source files.')
+  #}
   # filepath,'/YLD_related_function',
-  source(paste0('./YLD.R')) # YLD_nodefaults.R
+  #source(paste0('./YLD.R')) # YLD_nodefaults.R
   incident_cols<-length(dimnames(incident_data)[[2]])
   
   

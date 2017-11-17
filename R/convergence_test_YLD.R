@@ -21,12 +21,12 @@ testing_YLD_convergence<-function(iter=100,
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
   # filepath,'/YLD_related_function',
-  if(file.exists(paste0('./YLD_priors.R'))==FALSE){
-    stop('\n
-         Missing YLD_priors.R file, cannot estimate priors,\n
-         Please check the integrity of source files')
-  } # filepath,'/YLD_related_function',
-  source(paste0('./YLD_priors.R'))
+  #if(file.exists(paste0('./YLD_priors.R'))==FALSE){
+  #  stop('\n
+  #       Missing YLD_priors.R file, cannot estimate priors,\n
+  #       Please check the integrity of source files')
+  #} # filepath,'/YLD_related_function',
+  #source(paste0('./YLD_priors.R'))
   age_labels<-data$Original_data$Age
   population<-data$Original_data$population
   incidence_forcal<-data$Original_data$incidence
@@ -85,12 +85,12 @@ testing_prevYLD_convergence<-function(iter=100,
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
    # filepath,'/YLD_related_function',
-  if(file.exists(paste0('./YLD_priors.R'))==FALSE){
-    stop('\n
-         Missing YLD_priors.R file, cannot estimate priors,\n
-         Please check the integrity of source files')
-  } # filepath,'/YLD_related_function',
-  source(paste0('./YLD_priors.R'))
+  #if(file.exists(paste0('./YLD_priors.R'))==FALSE){
+  #  stop('\n
+  #       Missing YLD_priors.R file, cannot estimate priors,\n
+  #       Please check the integrity of source files')
+  #} # filepath,'/YLD_related_function',
+  #source(paste0('./YLD_priors.R'))
   age_labels<-data$Original_data$Age
   population<-data$Original_data$population
   prevalence_forcal<-data$Original_data$prevalence

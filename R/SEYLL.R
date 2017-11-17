@@ -18,12 +18,12 @@ SEYLL<-function(SLE_object,
   #}
   # require(parallel)
   # filepath,'/SEYLL_related_function',
-  if(file.exists(paste0('./YLL_subfunction.R'))==FALSE){
-    stop('\n
-         Missing YLL_subfunction.R file, cannot estimate YLL,\n
-         Please check the integrity of source files')
-  }
-  source(paste0('./YLL_subfunction.R'))
+  #if(file.exists(paste0('./YLL_subfunction.R'))==FALSE){
+  #  stop('\n
+  #       Missing YLL_subfunction.R file, cannot estimate YLL,\n
+  #       Please check the integrity of source files')
+  #}
+  #source(paste0('./YLL_subfunction.R'))
   # filepath,'/SEYLL_related_function',
   BplusR= -(Beta+Rate)
   Stand_life_expectancy<-SLE_object$SLE

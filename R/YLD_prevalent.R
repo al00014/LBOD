@@ -56,7 +56,7 @@ YLD_prevalent<-function(age_labels,
     
     # to comply with uncertainty analysis of YLL, uncertainty for population variable is also considered
     
-    source(paste0('./YLD_priors.R'))
+    #source(paste0('./YLD_priors.R'))
     # filepath,'/YLD_related_function',
     YLD_priors_samples<-list()
     for(i in 1:length(age_labels)){

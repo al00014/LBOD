@@ -44,7 +44,7 @@ YLD_incident<-function(age_labels,
   #print(str(data_plugin))
   #require(parallel)
   #require(triangle)
-  source(paste0('./YLD_subfunction.R'))
+  #source(paste0('./YLD_subfunction.R'))
    # filepath,'/YLD_related_function',
   if(uncertainty_range==TRUE){
     
@@ -69,7 +69,7 @@ YLD_incident<-function(age_labels,
     
     # to comply with uncertainty analysis of YLL, uncertainty for population variable is also considered
     
-    source(paste0('./YLD_priors.R'))
+   # source(paste0('./YLD_priors.R'))
     # filepath,'/YLD_related_function',
     YLD_priors_samples<-list()
     for(i in 1:length(age_labels)){

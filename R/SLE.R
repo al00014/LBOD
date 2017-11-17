@@ -62,12 +62,12 @@ SLE<-function(age_labels,population,death_counts,age_average_at_death,
   if(uncertainty_range==TRUE){
     
     #filepath,'/SLE_related_function',
-    if(file.exists(paste0('./prior_for_SLE.R'))==FALSE){
-      stop('\n
-         Missing prior_for_SLE.R file, cannot estimate priors,\n
-         Please check the integrity of source files')
-    }
-    source(paste0('./prior_for_SLE.R'))
+    #if(file.exists(paste0('./prior_for_SLE.R'))==FALSE){
+    #  stop('\n
+    #     Missing prior_for_SLE.R file, cannot estimate priors,\n
+    #     Please check the integrity of source files')
+    #}
+    #source(paste0('./prior_for_SLE.R'))
     # filepath,'/SLE_related_function',
     
     #population_priors<-function(x,scale=prior_population){ # using hyper priors and norm distribution for uncertainty of population

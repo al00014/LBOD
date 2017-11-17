@@ -52,16 +52,16 @@ Mor_to_YLL<-function(mortality_age_labels,
     age_average_at_death_final<-age_average_at_death
     }
   
-  if(!(file.exists(paste0('./SLE.R')))){ #filepath,'/SLE_related_function',
-    stop('\n
-         Cannot locate SLE.R files,
-         Please check the integrity of source files.')
-  }
-  if(!(file.exists(paste0('./SEYLL.R')))){ #filepath,'/SEYLL_related_function',
-    stop('\n 
-         Cannot locate SEYLL.R files,
-         Please check the integrity of source files.')
-  }
+  #if(!(file.exists(paste0('./SLE.R')))){ #filepath,'/SLE_related_function',
+  #  stop('\n
+  #       Cannot locate SLE.R files,
+  #       Please check the integrity of source files.')
+  #}
+  #if(!(file.exists(paste0('./SEYLL.R')))){ #filepath,'/SEYLL_related_function',
+  #  stop('\n 
+  #       Cannot locate SEYLL.R files,
+  #       Please check the integrity of source files.')
+  #}
   if(ncol(population)>=ncol(mortality_data)){
     population_data<-population[,1:ncol(mortality_data)]
   } else if(ncol(population)<ncol(mortality_data)){
@@ -71,8 +71,8 @@ Mor_to_YLL<-function(mortality_age_labels,
          has the same annual data')
   }
   
-  source(paste0('./SLE.R')) #filepath,'/SLE_related_function',
-  source(paste0('./SEYLL.R'))
+  #source(paste0('./SLE.R')) #filepath,'/SLE_related_function',
+  #source(paste0('./SEYLL.R'))
   #require(parallel) filepath,'/SEYLL_related_function',
   
   if(Output_YLL_noUI==TRUE){

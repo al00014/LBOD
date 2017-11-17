@@ -85,8 +85,8 @@ get_burden<-function(disease='lung',
   print('---------------------------------------------------')
   message(paste0('Burden calculation for gender: ',gender))
   print('---------------------------------------------------')
-  source(paste0('./Mor_to_YLL.R'))
-  source(paste0('./inc_to_incYLD.R'))
+  #source(paste0('Mor_to_YLL.R'))
+  #source(paste0('./inc_to_incYLD.R'))
   # filepath,'/From_incidence_to_YLD',
   if(input_list==TRUE){
     input_mortality<-mortality_data[[grep(disease,names(mortality_data))]]
@@ -260,9 +260,8 @@ get_burden_prev<-function(disease='lung',
   print('---------------------------------------------------')
   message(paste0('Burden calculation for gender: ',gender))
   print('---------------------------------------------------')
-  source(paste0(filepath,'/From_mortality_to_YLL','/Mor_to_YLL.R'))
-  #source(paste0(filepath,'/From_incidence_to_YLD','/inc_to_incYLD.R'))
-  source(paste0(filepath,'/From_prevalence_to_YLD','/prev_to_prevYLD.R'))
+  #source(paste0(filepath,'/From_mortality_to_YLL','/Mor_to_YLL.R'))
+  #source(paste0(filepath,'/From_prevalence_to_YLD','/prev_to_prevYLD.R'))
   
   if(input_list==TRUE){
     input_mortality<-mortality_data[[grep(disease,names(mortality_data))]]
