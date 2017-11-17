@@ -3,7 +3,7 @@ Title: A package to estimate DALY burden of disease
 Version: 0.0.0.9000
 Authors@R: person("Antonio", "Lam", email = "linxiao6@sysu.edu.cn", role = c("aut", "cre"))
 Description: The BOD package calculate the YLL, YLD and DALY and their rates to report the disease burden.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.4.2)
 License: Screw the license for now.
 Encoding: UTF-8
 LazyData: true
