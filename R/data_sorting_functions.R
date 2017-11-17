@@ -1,4 +1,5 @@
-setwd("./BOD")
+#setwd("./BOD")
+
 #' get_burden function
 #'
 #' This function estimates YLL, incident-YLD and DALY and their rates
@@ -72,8 +73,9 @@ get_burden<-function(disease='lung',
                      Const=0.1658,
                      Agewt=0,
                      max_age_YLL=100,
-                     max_age_YLD=90,# 'A:/r references/R functions/Disease_Burden_projection_project'
-                     filepath=paste0('./R') ){
+                     max_age_YLD=90#,# 'A:/r references/R functions/Disease_Burden_projection_project'
+                     #filepath=paste0('./R') 
+					 ){
   if(YLD_perUnit!=personunits){
     stop('\n
          To calculate DALY, YLL and YLD should be in the same unit,
@@ -83,9 +85,9 @@ get_burden<-function(disease='lung',
   print('---------------------------------------------------')
   message(paste0('Burden calculation for gender: ',gender))
   print('---------------------------------------------------')
-  source(paste0(filepath,'/From_mortality_to_YLL','/Mor_to_YLL.R'))
-  source(paste0(filepath,'/From_incidence_to_YLD','/inc_to_incYLD.R'))
-  
+  source(paste0('./Mor_to_YLL.R'))
+  source(paste0('./inc_to_incYLD.R'))
+  # filepath,'/From_incidence_to_YLD',
   if(input_list==TRUE){
     input_mortality<-mortality_data[[grep(disease,names(mortality_data))]]
     input_incident<-incident_data[[grep(disease,names(incident_data))]]
@@ -114,7 +116,7 @@ get_burden<-function(disease='lung',
                       Const=Const,
                       Agewt=Agewt,
                       Output_YLL_noUI=FALSE,
-                      filepath=filepath,
+                      #filepath=filepath,
                       verbose = FALSE)
   
   
@@ -131,7 +133,7 @@ get_burden<-function(disease='lung',
                          Input_Incident_Rate=FALSE,
                          year_range=year_range,
                          verbose = FALSE,
-                         filepath=filepath,
+                       #  filepath=filepath,
                          uncertainty_alpha=uncertainty_alpha,  ## uncertainty range default to 0.95% CI, indicating an alpha of 0.05, it is on both tails
                          prior_population=prior_population,
                          nTrials=nTrials,
@@ -246,8 +248,8 @@ get_burden_prev<-function(disease='lung',
                      Const=0.1658,
                      Agewt=0,
                      max_age_YLL=100,
-                     max_age_YLD=90,
-                     filepath=paste0('./R') 
+                     max_age_YLD=90#,
+                     #filepath=paste0('./R') 
 ){
   if(YLD_perUnit!=personunits){
     stop('\n
@@ -290,7 +292,7 @@ get_burden_prev<-function(disease='lung',
                       Const=Const,
                       Agewt=Agewt,
                       Output_YLL_noUI=FALSE,
-                      filepath=filepath ,
+                      #filepath=filepath ,
                       verbose = FALSE)
   
   
@@ -311,7 +313,7 @@ get_burden_prev<-function(disease='lung',
                         nTrials=nTrials,
                         YLD_perUnit=YLD_perUnit,
                         max_age=max_age_YLD,
-                        filepath=filepath ,
+                        #filepath=filepath ,
                         verbose=FALSE)
   
   

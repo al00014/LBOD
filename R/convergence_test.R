@@ -10,8 +10,9 @@
 #' @keywords data, iter
 #' @export
 testing_SLE_convergence<-function(iter=100,
-                                  data,#= SLE_object, # must take in a SLE_object produced by SLE() 
-                                  filepath=paste0(getwd(),'/R')){ # remember to save SE output as SLE_object, for sake of later use
+                                  data#,#= SLE_object, # must take in a SLE_object produced by SLE() 
+                                  #filepath=paste0(getwd(),'/R')
+								  ){ # remember to save SE output as SLE_object, for sake of later use
   #nTrials
   options(scipen = 999)
   if(data$uncertainty_output==FALSE){
@@ -19,13 +20,13 @@ testing_SLE_convergence<-function(iter=100,
          SLE_object does not specify the analysis of uncertainty\n
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
-  
-  if(file.exists(paste0(filepath,'/SLE_related_function','/prior_for_SLE.R'))==FALSE){
+  # filepath,'/SLE_related_function',
+  if(file.exists(paste0('./prior_for_SLE.R'))==FALSE){
     stop('\n
          Missing prior_for_SLE.R file, cannot estimate priors,\n
          Please check the integrity of source files')
-  }
-  source(paste0(filepath,'/SLE_related_function','/prior_for_SLE.R'))
+  } #filepath,'/SLE_related_function',
+  source(paste0('/prior_for_SLE.R'))
   age_labels<-data$Original_data$Age_groups
   population<-data$Original_data$population
   death_counts<-data$Original_data$death

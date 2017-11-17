@@ -10,8 +10,8 @@
 #' @keywords data, iter
 #' @export
 testing_YLD_convergence<-function(iter=100, 
-                                  data,#= YLD_range, # must take in a YLD_object produced by YLD_incident(), not YLD_prevalent
-                                  filepath=paste0(getwd(),'/R')
+                                  data#,#= YLD_range, # must take in a YLD_object produced by YLD_incident(), not YLD_prevalent
+                                  #filepath=paste0(getwd(),'/R')
 								  ){ # remember to save YLD output as YLD_object, for sake of later use
   #nTrials
   options(scipen = 999)
@@ -20,13 +20,13 @@ testing_YLD_convergence<-function(iter=100,
          YLD_object does not specify the analysis of uncertainty\n
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
-  
-  if(file.exists(paste0(filepath,'/YLD_related_function','/YLD_priors.R'))==FALSE){
+  # filepath,'/YLD_related_function',
+  if(file.exists(paste0('./YLD_priors.R'))==FALSE){
     stop('\n
          Missing YLD_priors.R file, cannot estimate priors,\n
          Please check the integrity of source files')
-  }
-  source(paste0(filepath,'/YLD_related_function','/YLD_priors.R'))
+  } # filepath,'/YLD_related_function',
+  source(paste0('./YLD_priors.R'))
   age_labels<-data$Original_data$Age
   population<-data$Original_data$population
   incidence_forcal<-data$Original_data$incidence
@@ -74,8 +74,8 @@ testing_YLD_convergence<-function(iter=100,
 #' @keywords data, iter
 #' @export
 testing_prevYLD_convergence<-function(iter=100, 
-                                  data,#= YLD_range, # must take in a YLD_object produced by YLD_prevalent
-                                  filepath=paste0(getwd(),'/R')
+                                  data#,#= YLD_range, # must take in a YLD_object produced by YLD_prevalent
+                                  #filepath=paste0(getwd(),'/R')
 								  ){ # remember to save YLD output as YLD_object, for sake of later use
   #nTrials
   options(scipen = 999)
@@ -84,13 +84,13 @@ testing_prevYLD_convergence<-function(iter=100,
          YLD_object does not specify the analysis of uncertainty\n
          Please look for the argument "uncertainty_output" in SLE() and set it to TRUE')
   }
-  
-  if(file.exists(paste0(filepath,'/YLD_related_function','/YLD_priors.R'))==FALSE){
+   # filepath,'/YLD_related_function',
+  if(file.exists(paste0('./YLD_priors.R'))==FALSE){
     stop('\n
          Missing YLD_priors.R file, cannot estimate priors,\n
          Please check the integrity of source files')
-  }
-  source(paste0(filepath,'/YLD_related_function','/YLD_priors.R'))
+  } # filepath,'/YLD_related_function',
+  source(paste0('./YLD_priors.R'))
   age_labels<-data$Original_data$Age
   population<-data$Original_data$population
   prevalence_forcal<-data$Original_data$prevalence
