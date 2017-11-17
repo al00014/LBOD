@@ -1,3 +1,4 @@
+setwd("./BOD")
 #' get_burden function
 #'
 #' This function estimates YLL, incident-YLD and DALY and their rates
@@ -246,7 +247,7 @@ get_burden_prev<-function(disease='lung',
                      Agewt=0,
                      max_age_YLL=100,
                      max_age_YLD=90,
-                     filepath=paste0('./BOD/R') 
+                     filepath=paste0('./R') 
 ){
   if(YLD_perUnit!=personunits){
     stop('\n
