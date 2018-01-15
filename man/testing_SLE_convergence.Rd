@@ -4,7 +4,7 @@
 \alias{testing_SLE_convergence}
 \title{testing_SLE_convergence() function}
 \usage{
-testing_SLE_convergence(iter = 100, data, filepath = paste0(getwd(), "/R"))
+testing_SLE_convergence(iter = 100, data)
 }
 \arguments{
 \item{iter}{indicates number of iteration}

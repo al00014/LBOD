@@ -4,8 +4,7 @@
 \alias{testing_prevYLD_convergence}
 \title{testing_prevYLD_convergence() function}
 \usage{
-testing_prevYLD_convergence(iter = 100, data, filepath = paste0(getwd(),
-  "/R"))
+testing_prevYLD_convergence(iter = 100, data)
 }
 \arguments{
 \item{iter}{indicates number of iteration}

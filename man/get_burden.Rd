@@ -14,7 +14,7 @@ get_burden(disease = "lung", gender = "male", year_range = 2004:2011,
   uncertainty_alpha = 0.05, prior_population = 0.001, nTrials = 2000,
   YLD_perUnit = 1000, personunits = 1000, RateUNIT = 1000, Rate = 0.03,
   Beta = 0.04, Const = 0.1658, Agewt = 0, max_age_YLL = 100,
-  max_age_YLD = 90, filepath = paste0(getwd(), "/BOD/R"))
+  max_age_YLD = 90)
 }
 \arguments{
 \item{disease}{a character indicator of which disease to extract, use when input_list=TRUE, the disease names can be found in description.}
@@ -37,7 +37,7 @@ A list of tabular YLL, YLD, DALY and their rates.
 \description{
 This function estimates YLL, incident-YLD and DALY and their rates
 based on input of mortality and incident cases.
-Rates are calculated based on input of argument population_std. 
+Rates are calculated based on input of argument population_std.
 YLL also requires input of age_average_at_death and standard lifetable.
 YLD also requires input of input_age_at_onset, input_duration, input_Duration_interval,
 input_DisabilityWeight and input_DisabilityWeight_interval.
@@ -56,9 +56,9 @@ get_burden(disease='lung',
                     age_average_at_death=age_average_at_death,
                     input_age_at_onset=age_at_onset,
                     standard_LE=WHO_LE_table[,2],
-                    standard_LT_age=WHO_LE_table[,1],  
-                    input_duration=input_duration[,1],
-                    input_Duration_interval=input_duration[,2:3],
+                    standard_LT_age=WHO_LE_table[,1],
+                    input_duration=c(0.63310,input_duration[,1]),
+                    input_Duration_interval=rbind(data.frame(Duration_lr=0.59965,Duration_up=2.43565),input_duration[,2:3]),
                     input_DisabilityWeight=input_DisabilityWeight,
                     input_DisabilityWeight_interval=input_DisabilityWeight_interval)
 }
