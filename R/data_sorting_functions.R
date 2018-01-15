@@ -4,21 +4,21 @@
 #'
 #' This function estimates YLL, incident-YLD and DALY and their rates
 #' based on input of mortality and incident cases.
-#' Rates are calculated based on input of argument population_std. 
+#' Rates are calculated based on input of argument population_std.
 #' YLL also requires input of age_average_at_death and standard lifetable.
 #' YLD also requires input of input_age_at_onset, input_duration, input_Duration_interval,
 #' input_DisabilityWeight and input_DisabilityWeight_interval.
 #' Current default lifetable is Coale and Demeny's West level 26.
 #' Mortality and incident cases should be in tabular form, row by age and column by year.
-#' The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+. 
-#' 
+#' The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+.
+#'
 #' @param disease a character indicator of which disease to extract, use when input_list=TRUE, the disease names can be found in description.
 #' @param gender a character indicator for gender.
 #' @param year_range a vector showing the range of years.
 #' @param incident_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of incidence cases.
 #' @param mortality_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
-#' @param population_std a dataframe of population, with row by age and column by year. 
-#' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE. 
+#' @param population_std a dataframe of population, with row by age and column by year.
+#' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.
 #' @param ...
 #' @return A list of tabular YLL, YLD, DALY and their rates.
 #' @keywords incident_data, mortality_data
@@ -34,9 +34,9 @@
 #'                     age_average_at_death=age_average_at_death,
 #'                     input_age_at_onset=age_at_onset,
 #'                     standard_LE=WHO_LE_table[,2],
-#'                     standard_LT_age=WHO_LE_table[,1],  
-#'                     input_duration=input_duration[,1],
-#'                     input_Duration_interval=input_duration[,2:3],
+#'                     standard_LT_age=WHO_LE_table[,1],
+#'                     input_duration=c(0.63310,input_duration[,1]),
+#'                     input_Duration_interval=rbind(data.frame(Duration_lr=0.59965,Duration_up=2.43565),input_duration[,2:3]),
 #'                     input_DisabilityWeight=input_DisabilityWeight,
 #'                     input_DisabilityWeight_interval=input_DisabilityWeight_interval)
 get_burden<-function(disease='lung',
@@ -50,13 +50,13 @@ get_burden<-function(disease='lung',
                      age_average_at_death,#=rowMeans(age_at_onset_df),
                      input_age_at_onset,#=rowMeans(age_at_onset_df),
                      standard_LE,#=WHO_LE_table[,2],
-                     standard_LT_age,#=WHO_LE_table[,1],  
+                     standard_LT_age,#=WHO_LE_table[,1],
                      input_duration,#=c(rep(0,13),rep(10,2),rep(5,2),rep(3,2)),
                      input_DisabilityWeight,#=rep(0.54,times=length(age_labels)),
                      input_Duration_interval,#=data.frame(duration-duration*1/4,
                      #           duration+duration*1/4),
                      input_DisabilityWeight_interval,#=DisabilityWeight_interval,
-                     age_label=c('0'  ,   '1-4' ,  '5-9'  , 
+                     age_label=c('0'  ,   '1-4' ,  '5-9'  ,
                                  '10-14', '15-19' ,'20-24' ,
                                  '25-29' ,'30-34', '35-39' ,
                                  '40-44' ,'45-49' ,'50-54' ,
@@ -74,7 +74,7 @@ get_burden<-function(disease='lung',
                      Agewt=0,
                      max_age_YLL=100,
                      max_age_YLD=90#,# 'A:/r references/R functions/Disease_Burden_projection_project'
-                     #filepath=paste0('./R') 
+                     #filepath=paste0('./R')
 					 ){
   if(YLD_perUnit!=personunits){
     stop('\n
@@ -95,9 +95,9 @@ get_burden<-function(disease='lung',
     input_mortality<-mortality_data
     input_incident<-incident_data
   }
-  
-  
-  ## get YLL from mortality, 
+
+
+  ## get YLL from mortality,
   ## input population is only used in standardization, which means that it only influences YLL rate
   YLL_std<-Mor_to_YLL(year_range=year_range,
                       mortality_age_labels=age_label,
@@ -118,9 +118,9 @@ get_burden<-function(disease='lung',
                       Output_YLL_noUI=FALSE,
                       #filepath=filepath,
                       verbose = FALSE)
-  
-  
-  ## get YLD from incidence, 
+
+
+  ## get YLD from incidence,
   ## input population is only used in standardization, which means that it only influences YLD rate
   YLD_std<-inc_to_incYLD(incident_age_labels=age_label,
                          incident_data=input_incident,
@@ -145,16 +145,16 @@ get_burden<-function(disease='lung',
                          Agewt=Agewt,
                          max_age=max_age_YLD,
                          Output_YLD_noUI=FALSE)
-  
-  
+
+
   DALY<-YLL_std$YLL_byyear+YLD_std$YLD_byyear
   DALY_lr<-YLL_std$YLL_lr_byyear+YLD_std$YLD_lr_byyear
   DALY_up<-YLL_std$YLL_up_byyear+YLD_std$YLD_up_byyear
-  
+
   DALY_rate<-YLL_std$YLLper_byyear+YLD_std$YLDper_byyear
   DALY_rate_lr<-YLL_std$YLLper_lr_byyear+YLD_std$YLDper_lr_byyear
   DALY_rate_up<-YLL_std$YLLper_up_byyear+YLD_std$YLDper_up_byyear
-  
+
   burden_object<-list(gender=gender,
                       unit_for_standardization=output_rate_unit,
                       YLL=list(not_standardized=list(point_est=YLL_std$YLL_byyear,
@@ -178,31 +178,31 @@ get_burden<-function(disease='lung',
                       YLL_object=YLL_std,
                       YLD_object=YLD_std,
                       population_for_std=population_std)
-  
+
   class(burden_object) <- "burden_object"
   attr(burden_object,"Call") <- sys.call()
   return(burden_object)
-  
+
   }
 
 #' get_burden_prev() function
 #'
 #' This function estimates YLL, prev-YLD and DALY and their rates
 #' based on input of mortality and prevalent cases.
-#' Rates are calculated based on input of argument population_std. 
+#' Rates are calculated based on input of argument population_std.
 #' YLL also requires input of age_average_at_death and standard lifetable.
 #' YLD also requires input of input_DisabilityWeight and input_DisabilityWeight_interval.
 #' Current default lifetable is Coale and Demeny's West level 26.
 #' Mortality and prevalent cases should be in tabular form, row by age and column by year.
-#' The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+. 
-#' 
+#' The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+.
+#'
 #' @param disease a character indicator of which disease to extract, use when input_list=TRUE, the disease names can be found in description.
 #' @param gender a character indicator for gender.
 #' @param year_range a vector showing the range of years.
 #' @param prev_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of prevalence cases.
 #' @param mortality_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
-#' @param population_std a dataframe of population, with row by age and column by year. 
-#' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE. 
+#' @param population_std a dataframe of population, with row by age and column by year.
+#' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.
 #' @param ...
 #' @return A list of tabular YLL, YLD, DALY and their rates.
 #' @keywords prev_data, mortality_data
@@ -216,7 +216,7 @@ get_burden<-function(disease='lung',
 #'                     population_std=population_std,
 #'                     age_average_at_death=age_average_at_death,
 #'                     standard_LE=WHO_LE_table[,2],
-#'                     standard_LT_age=WHO_LE_table[,1],  
+#'                     standard_LT_age=WHO_LE_table[,1],
 #'                     input_DisabilityWeight=input_DisabilityWeight,
 #'                     input_DisabilityWeight_interval=input_DisabilityWeight_interval)
 get_burden_prev<-function(disease='lung',
@@ -228,10 +228,10 @@ get_burden_prev<-function(disease='lung',
                      population_std,#=China_pop_GZ2004_2011$male,
                      age_average_at_death,#=rowMeans(age_at_onset_df),
                      standard_LE,#=WHO_LE_table[,2],
-                     standard_LT_age,#=WHO_LE_table[,1],  
+                     standard_LT_age,#=WHO_LE_table[,1],
                      input_DisabilityWeight,#=rep(0.54,times=length(age_labels)),
                      input_DisabilityWeight_interval,#=DisabilityWeight_interval,
-                     age_label=c('0'  ,   '1-4' ,  '5-9'  , 
+                     age_label=c('0'  ,   '1-4' ,  '5-9'  ,
                                  '10-14', '15-19' ,'20-24' ,
                                  '25-29' ,'30-34', '35-39' ,
                                  '40-44' ,'45-49' ,'50-54' ,
@@ -249,7 +249,7 @@ get_burden_prev<-function(disease='lung',
                      Agewt=0,
                      max_age_YLL=100,
                      max_age_YLD=90#,
-                     #filepath=paste0('./R') 
+                     #filepath=paste0('./R')
 ){
   if(YLD_perUnit!=personunits){
     stop('\n
@@ -262,7 +262,7 @@ get_burden_prev<-function(disease='lung',
   print('---------------------------------------------------')
   #source(paste0(filepath,'/From_mortality_to_YLL','/Mor_to_YLL.R'))
   #source(paste0(filepath,'/From_prevalence_to_YLD','/prev_to_prevYLD.R'))
-  
+
   if(input_list==TRUE){
     input_mortality<-mortality_data[[grep(disease,names(mortality_data))]]
     input_incident<-prev_data[[grep(disease,names(prev_data))]]
@@ -270,9 +270,9 @@ get_burden_prev<-function(disease='lung',
 	input_mortality<-mortality_data
 	input_incident<-prev_data
   }
-  
-  
-  ## get YLL from mortality, 
+
+
+  ## get YLL from mortality,
   ## input population is only used in standardization, which means that it only influences YLL rate
   YLL_std<-Mor_to_YLL(year_range=year_range,
                       mortality_age_labels=age_label,
@@ -293,9 +293,9 @@ get_burden_prev<-function(disease='lung',
                       Output_YLL_noUI=FALSE,
                       #filepath=filepath ,
                       verbose = FALSE)
-  
-  
-  ## get YLD from incidence, 
+
+
+  ## get YLD from incidence,
   ## input population is only used in standardization, which means that it only influences YLD rate
   YLD_std<-prev_to_prevYLD(prevalent_age_labels=age_label,
                         prevalent_data=input_incident,
@@ -314,18 +314,18 @@ get_burden_prev<-function(disease='lung',
                         max_age=max_age_YLD,
                         #filepath=filepath ,
                         verbose=FALSE)
-  
-  
-  
-  
+
+
+
+
   DALY<-YLL_std$YLL_byyear+YLD_std$YLD_byyear
   DALY_lr<-YLL_std$YLL_lr_byyear+YLD_std$YLD_lr_byyear
   DALY_up<-YLL_std$YLL_up_byyear+YLD_std$YLD_up_byyear
-  
+
   DALY_rate<-YLL_std$YLLper_byyear+YLD_std$YLDper_byyear
   DALY_rate_lr<-YLL_std$YLLper_lr_byyear+YLD_std$YLDper_lr_byyear
   DALY_rate_up<-YLL_std$YLLper_up_byyear+YLD_std$YLDper_up_byyear
-  
+
   burden_object<-list(gender=gender,
                       unit_for_standardization=output_rate_unit,
                       YLL=list(not_standardized=list(point_est=YLL_std$YLL_byyear,
@@ -349,20 +349,20 @@ get_burden_prev<-function(disease='lung',
                       YLL_object=YLL_std,
                       YLD_object=YLD_std,
                       population_for_std=population_std)
-  
+
   class(burden_object) <- "burden_object"
   attr(burden_object,"Call") <- sys.call()
   return(burden_object)
-  
+
   }
-  
+
 #### function for recalculating the burden rate
 
 #' recal_rate_forBothGen() function
 #'
 #' This function works with objects produced by get_burden() or get_burden_prev().
 #' It recalculates burden rate for both gender, based on input of argument population.
-#' 
+#'
 #' @param burden_male a burden_object produced by get_burden() or get_burden_prev(). Only take in the male results.
 #' @param burden_female a burden_object produced by get_burden() or get_burden_prev(). Only take in the female results.
 #' @param output_rate_unit a value indicating the unit of rate.
@@ -380,7 +380,7 @@ get_burden_prev<-function(disease='lung',
 #'                     age_average_at_death=age_average_at_death,
 #'                     input_age_at_onset=age_at_onset,
 #'                     standard_LE=WHO_LE_table[,2],
-#'                     standard_LT_age=WHO_LE_table[,1],  
+#'                     standard_LT_age=WHO_LE_table[,1],
 #'                     input_duration=input_duration[,1],
 #'                     input_Duration_interval=input_duration[,2:3],
 #'                     input_DisabilityWeight=input_DisabilityWeight,
@@ -394,7 +394,7 @@ get_burden_prev<-function(disease='lung',
 #'                     age_average_at_death=age_average_at_death,
 #'                     input_age_at_onset=age_at_onset,
 #'                     standard_LE=WHO_LE_table[,2],
-#'                     standard_LT_age=WHO_LE_table[,1],  
+#'                     standard_LT_age=WHO_LE_table[,1],
 #'                     input_duration=input_duration[,1],
 #'                     input_Duration_interval=input_duration[,2:3],
 #'                     input_DisabilityWeight=input_DisabilityWeight,
@@ -413,14 +413,14 @@ recal_rate_forBothGen<-function(burden_male,#=LC_burden,# takes in a burden_obje
   #       Required packages not found, installing now.
   #		 the dependent package(s) is(are):
   #       parallel')
-  #	installed.packages('parallel')	 
+  #	installed.packages('parallel')
   #}
   if(class(burden_male)!='burden_object'){
-    
+
     stop('### must take-in a burden_object object produced by get_burden() function')
   }
   if(class(burden_female)!='burden_object'){
-    
+
     stop('### must take-in a burden_object object produced by get_burden() function')
   }
   if(sum(names(population)!=c('male','female'))!=0){
@@ -429,7 +429,7 @@ recal_rate_forBothGen<-function(burden_male,#=LC_burden,# takes in a burden_obje
   }
   rowNo<-length(dimnames(burden_male$DALY$not_standardized$point_est)[[1]])
   colNo<-length(dimnames(burden_male$DALY$not_standardized$point_est)[[2]])
-  
+
   #require(parallel)
   burden_BothGen_final<-list()
   looper<-1
@@ -442,25 +442,25 @@ recal_rate_forBothGen<-function(burden_male,#=LC_burden,# takes in a burden_obje
     looper<-looper+1
   }
   names(burden_BothGen_final)<-c('YLL','YLD','DALY')
-  
+
   population_bothGen<-population$male+population$female
   burden_rate_BothGen_final<-list()
   for(i in 1:3){
     burden_BothGen_lst<-parallel::mclapply(1:3,FUN = function(j){
       burden_bothGen<-burden_BothGen_final[[i]][[j]][-rowNo,]/population_bothGen*output_rate_unit
-      
+
       Total_rate<-colSums(burden_BothGen_final[[i]][[j]][-rowNo,])/colSums(population_bothGen)*output_rate_unit
-      
+
       burden_bothGen_withTotal<-rbind(burden_bothGen,Total_rate)
       row.names(burden_bothGen_withTotal)[rowNo]<-'Total'
       return(burden_bothGen_withTotal)
     })
     names(burden_BothGen_lst)<-paste0('standardized_',c('point_est','lr','up'))
     burden_rate_BothGen_final[[i]]<-burden_BothGen_lst
-    
+
   }
   names(burden_rate_BothGen_final)<-c('YLL','YLD','DALY')
-  
+
   burden_object_BothGen<-list(YLL=list(not_standardized=list(point_est=burden_BothGen_final$YLL$not_standardized_point_est,
                                                              lr=burden_BothGen_final$YLL$not_standardized_lr,
                                                              up=burden_BothGen_final$YLL$not_standardized_up),
@@ -482,7 +482,7 @@ recal_rate_forBothGen<-function(burden_male,#=LC_burden,# takes in a burden_obje
                               unit_for_standardization=output_rate_unit,
                               population_for_std=population
   )
-  
+
   class(burden_object_BothGen) <- "burden_object_forBothGen"
   attr(burden_object_BothGen,"Call") <- sys.call()
   return(burden_object_BothGen)
