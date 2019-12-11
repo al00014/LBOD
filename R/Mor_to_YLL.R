@@ -31,6 +31,39 @@ Mor_to_YLL<-function(mortality_age_labels,
             Normally, take average of Life expectancy of several age groups should work, \n
             and discard a few age groups, make the age interval wider in other words,')
   }
+  
+  ### added on 2019-12-11, judge beforehand, the validity of input of mortality_data object.
+  if(class(mortality_data)=='numeric'){
+    #mortality_data=mortality_cases_bycause_female$lung[,1]
+    message(paste0('Input of "mortality_data" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the mortality_data input argument will be greater than 1 (',ncol(mortality_data) >1,').'))
+    
+    mortality_data<-data.frame(mortality_data)
+    colnames(mortality_data)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the mortality_data input argument will be equal to 1 (',ncol(mortality_data) ==1,').'))
+    
+  } else if(class(mortality_data)=='data.frame'){
+    #mortality_data=mortality_cases_bycause_female$lung
+    message(paste0('Input of "mortality_data" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the mortality_data input argument will be greater than 1 (',ncol(mortality_data) >1,').'))
+  }
+  
+  ### the same configuration for the input of population object.
+  if(class(population)=='numeric'){
+    #population=population_std[,1]
+    message(paste0('Input of "population" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the population input argument will be greater than 1 (',ncol(population) >1,').'))
+    
+    population<-data.frame(population)
+    colnames(population)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the population input argument will be equal to 1 (',ncol(population) ==1,').'))
+    
+  } else if(class(population)=='data.frame'){
+    #population=population_std
+    message(paste0('Input of "population" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the population input argument will be greater than 1 (',ncol(population) >1,').'))
+  }
+  
   if(class(age_average_at_death)=='numeric'){
   
 	print('-----------------------------')
@@ -62,14 +95,27 @@ Mor_to_YLL<-function(mortality_age_labels,
   #       Cannot locate SEYLL.R files,
   #       Please check the integrity of source files.')
   #}
+  #if(ncol(population)>=ncol(mortality_data)){
+  #  population_data<-population[,1:ncol(mortality_data)]
+  #} else if(ncol(population)<ncol(mortality_data)){
+  #  stop('\n
+  #       Not enough years of data for population, cannot calculate YLL,\n
+  #       Please ensure that the population data and the mortality data \n
+  #       has the same annual data')
+  #}
+  #
+  ### only extract the population_data, with the fixing ncols equal to mortality_data.
   if(ncol(population)>=ncol(mortality_data)){
-    population_data<-population[,1:ncol(mortality_data)]
+    population_data<-data.frame(population[,1:ncol(mortality_data)]) ### fixed on 2019-12-11, make the population_data into a data.frame object!!!
   } else if(ncol(population)<ncol(mortality_data)){
     stop('\n
          Not enough years of data for population, cannot calculate YLL,\n
          Please ensure that the population data and the mortality data \n
          has the same annual data')
   }
+  ### fixed on 2019-12-11, rename the population_data colnames, with those from the mortality_data
+  colnames(population_data)<- colnames(mortality_data)
+  message(paste0('The object type for population_data should be a "data.frame" (',class(population_data)=='data.frame',').'))
   
   #source(paste0('./SLE.R')) #filepath,'/SLE_related_function',
   #source(paste0('./SEYLL.R'))
