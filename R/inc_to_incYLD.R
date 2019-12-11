@@ -37,6 +37,39 @@ inc_to_incYLD<-function(incident_age_labels,
     print('-----------------------------')
     
   }
+  ### added on 2019-12-11, judge beforehand, the validity of input of incident_data object.
+  if(class(incident_data)=='numeric'){
+    #incident_data=mortality_cases_bycause_female$lung[,1]
+    message(paste0('Input of "incident_data" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the incident_data input argument will be greater than 1 (',ncol(incident_data) >1,').'))
+    
+    incident_data<-data.frame(incident_data)
+    colnames(incident_data)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the incident_data input argument will be equal to 1 (',ncol(incident_data) ==1,').'))
+    
+  } else if(class(incident_data)=='data.frame'){
+    #incident_data=mortality_cases_bycause_female$lung
+    message(paste0('Input of "incident_data" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the incident_data input argument will be greater than 1 (',ncol(incident_data) >1,').'))
+  }
+  
+  ### the same configuration for the input of input_population object.
+  if(class(input_population)=='numeric'){
+    #input_population=population_std[,1]
+    message(paste0('Input of "input_population" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the input_population input argument will be greater than 1 (',ncol(input_population) >1,').'))
+    
+    input_population<-data.frame(input_population)
+    colnames(input_population)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the input_population input argument will be equal to 1 (',ncol(input_population) ==1,').'))
+    
+  } else if(class(input_population)=='data.frame'){
+    #input_population=input_population_std
+    message(paste0('Input of "input_population" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the input_population input argument will be greater than 1 (',ncol(input_population) >1,').'))
+  }
+  
+  
   #if(!(file.exists(paste0('./YLD.R')))){ #filepath,'/YLD_related_function',
   #  stop('\n
   #       Cannot locate YLD.R files,
@@ -71,7 +104,11 @@ inc_to_incYLD<-function(incident_age_labels,
             }
             
             if(ncol(input_population)>=ncol(incident_data)){
-              population_data<-input_population[,1:ncol(incident_data)]
+              #population_data<-input_population[,1:ncol(incident_data)]
+			  population_data<-data.frame(input_population[,1:ncol(incident_data)])  ### fixed on 2019-12-11, make the population_data into a data.frame object!!!
+              colnames(population_data)<-colnames(incident_data) ## ### fixed on 2019-12-11, rename the population_data colnames, with those from the mortality_data
+
+			  
             } else if(ncol(input_population)<ncol(incident_data)){
               stop('\n
                    Not enough years of data for input_population, cannot calculate YLD,\n
@@ -128,8 +165,35 @@ inc_to_incYLD<-function(incident_age_labels,
     
   } else {
     
-    YLD_object_by_year<-list()
-    for(i in 1:incident_cols){
+    #YLD_object_by_year<-list()
+    #for(i in 1:incident_cols){
+    #  tem<-YLD_incident(age_labels=incident_age_labels,
+    #                           population=population_data[,i],
+    #                           incidence=incident_data[,i],
+    #                           age_at_onset=age_at_onset_final[,i],
+    #                           duration=input_duration,
+    #                           DisabilityWeight=input_DisabilityWeight,
+    #                           Duration_interval=input_Duration_interval,
+    #                           DisabilityWeight_interval=input_DisabilityWeight_interval,
+    #                           prior_population=prior_population,
+    #                           nTrials=nTrials,
+    #                           uncertainty_range=TRUE,
+    #                           Input_Incident_Rate=Input_Incident_Rate,
+    #                           uncertainty_alpha=uncertainty_alpha,  ## uncertainty range default to 0.95% CI, indicating an alpha of 0.05, it is on both tails
+    #                           max_age=max_age,
+    #                           Rate=Rate,
+    #                           Beta=Beta,
+    #                           Const=Const,
+    #                           Agewt=Agewt,
+    #                           RateUNIT=RateUNIT,
+    #                           YLD_perUnit=YLD_perUnit#,
+    #                           #filepath=filepath
+    #  )
+    #  
+    #  YLD_object_by_year[[i]]<-tem
+    #}
+    #### updated on 2019-12-11, replacing for-loop with lapply.
+	YLD_object_by_year<-lapply(1:incident_cols,FUN=function(i){
       tem<-YLD_incident(age_labels=incident_age_labels,
                                population=population_data[,i],
                                incidence=incident_data[,i],
@@ -152,10 +216,9 @@ inc_to_incYLD<-function(incident_age_labels,
                                YLD_perUnit=YLD_perUnit#,
                                #filepath=filepath
       )
-      
-      YLD_object_by_year[[i]]<-tem
-    }
-    
+      return(tem)
+      #YLD_object_by_year[[i]]<-tem
+    })
     names(YLD_object_by_year)<-paste0('Y',year_range)
     
     YLD_byyear<-data.frame(matrix(unlist(parallel::mclapply(1:length(YLD_object_by_year),FUN=function(i){
