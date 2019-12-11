@@ -152,9 +152,33 @@ Mor_to_YLL<-function(mortality_age_labels,
     
     YLL<-list(YLL_byyear=YLL_byyear)
   } else {
-    SEYLL_object_by_year<-list()
-    for(i in 1:ncol(mortality_data)){
-      SLE_object<-SLE(age_labels=mortality_age_labels,
+    #SEYLL_object_by_year<-list()
+    #for(i in 1:ncol(mortality_data)){
+    #  SLE_object<-SLE(age_labels=mortality_age_labels,
+    #                  population=population_data[,i],
+    #                  death_counts=mortality_data[,i],
+    #                  age_average_at_death=age_average_at_death_final[,i],
+    #                  standard_LE=standard_LE,
+    #                  standard_age=standard_LT_age,
+    #                  prior_population=prior_population,
+    #                  nTrials=nTrials,
+    #                 uncertainty_range=TRUE,
+    #                  uncertainty_alpha=uncertainty_alpha,  ## uncertainty range default to 0.95% CI, indicating an alpha of 0.05, it is on both tails
+    #                  max_age=max_age#,
+    #                 # filepath=filepath
+    #  )
+    #  SEYLL_object_by<-SEYLL(SLE_object = SLE_object,
+    #                         personunits=personunits,
+	#						 #filepath=filepath,
+    #                         Rate=Rate,
+    #                         Beta=Beta,
+    #                         Const=Const,
+    #                         Agewt=Agewt)
+    #  SEYLL_object_by_year[[i]]<-SEYLL_object_by
+    #}
+	### updated on 2019-12-11, with lapply instead of a dump for loop.
+    SEYLL_object_by_year<-lapply(1:ncol(mortality_data),FUN=function(i){
+	      SLE_object<-SLE(age_labels=mortality_age_labels,
                       population=population_data[,i],
                       death_counts=mortality_data[,i],
                       age_average_at_death=age_average_at_death_final[,i],
@@ -174,9 +198,8 @@ Mor_to_YLL<-function(mortality_age_labels,
                              Beta=Beta,
                              Const=Const,
                              Agewt=Agewt)
-      SEYLL_object_by_year[[i]]<-SEYLL_object_by
-    }
-    
+      return(SEYLL_object_by)
+	})
     names(SEYLL_object_by_year)<-paste0('Y',year_range)
     
     YLL_byyear<-data.frame(matrix(unlist(parallel::mclapply(1:length(SEYLL_object_by_year),FUN=function(i){
