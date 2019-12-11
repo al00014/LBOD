@@ -36,8 +36,43 @@ prev_to_prevYLD<-function(prevalent_age_labels,
   #       Please check the integrity of source files.')
   #}
   
+    ### added on 2019-12-11, judge beforehand, the validity of input of prevalent_data object.
+  if(class(prevalent_data)=='numeric'){
+    #prevalent_data=mortality_cases_bycause_female$lung[,1]
+    message(paste0('Input of "prevalent_data" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the prevalent_data input argument will be greater than 1 (',ncol(prevalent_data) >1,').'))
+    
+    prevalent_data<-data.frame(prevalent_data)
+    colnames(prevalent_data)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the prevalent_data input argument will be equal to 1 (',ncol(prevalent_data) ==1,').'))
+    
+  } else if(class(prevalent_data)=='data.frame'){
+    #prevalent_data=mortality_cases_bycause_female$lung
+    message(paste0('Input of "prevalent_data" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the prevalent_data input argument will be greater than 1 (',ncol(prevalent_data) >1,').'))
+  }
+    ### the same configuration for the input of input_population object.
+  if(class(input_population)=='numeric'){
+    #input_population=population_std[,1]
+    message(paste0('Input of "input_population" is a numeric vector, the function will not work!!! Adjust in a hardcoded fashion!'))
+    message(paste0('[BEFORE adjustment, there should be nothing in bracket!] The number of columns in the input_population input argument will be greater than 1 (',ncol(input_population) >1,').'))
+    
+    input_population<-data.frame(input_population)
+    colnames(input_population)<-paste0('Y',year_range)
+    message(paste0('[AFTER adjustment] The number of columns in the input_population input argument will be equal to 1 (',ncol(input_population) ==1,').'))
+    
+  } else if(class(input_population)=='data.frame'){
+    #input_population=input_population_std
+    message(paste0('Input of "input_population" is a data.frame object, the function will work just fine!'))
+    message(paste0('The number of columns in the input_population input argument will be greater than 1 (',ncol(input_population) >1,').'))
+  }
+  
   if(ncol(input_population)>=ncol(prevalent_data)){
-    population_data<-input_population[,1:ncol(prevalent_data)]
+    #population_data<-input_population[,1:ncol(prevalent_data)]
+	population_data<-data.frame(input_population[,1:ncol(prevalent_data)])  ### fixed on 2019-12-11, make the population_data into a data.frame object!!!
+    colnames(population_data)<-colnames(prevalent_data) ## ### fixed on 2019-12-11, rename the population_data colnames, with those from the mortality_data
+	
+	
   } else if(ncol(input_population)<ncol(prevalent_data)){
     stop('\n
          Not enough years of data for input_population, cannot calculate YLD,\n
