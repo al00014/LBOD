@@ -127,8 +127,28 @@ prev_to_prevYLD<-function(prevalent_age_labels,
     
   } else {
     
-    YLD_object_by_year<-list()
-    for(i in 1:incident_cols){
+    #YLD_object_by_year<-list()
+    #for(i in 1:incident_cols){
+    #  tem<-YLD_prevalent(age_labels=prevalent_age_labels,
+    #                    population=population_data[,i],
+    #                    prevalence=prevalent_data[,i],
+    #                    DisabilityWeight=input_DisabilityWeight,
+    #                    DisabilityWeight_interval=input_DisabilityWeight_interval,
+    #                    prior_population=prior_population,
+    #                    nTrials=nTrials,
+    #                    uncertainty_range=TRUE,
+    #                    Input_Prevalent_Rate=Input_Prevalent_Rate,
+    #                    uncertainty_alpha=uncertainty_alpha,  ## uncertainty range default to 0.95% CI, indicating an #alpha of 0.05, it is on both tails
+   #                     max_age=max_age,
+    #                    RateUNIT=RateUNIT,
+    #                    YLD_perUnit=YLD_perUnit#,
+    #                    #filepath=filepath
+    #  )
+    #  
+    #  YLD_object_by_year[[i]]<-tem
+    #}
+	##
+	YLD_object_by_year<-lapply(1:incident_cols,FUN=function(i){
       tem<-YLD_prevalent(age_labels=prevalent_age_labels,
                         population=population_data[,i],
                         prevalence=prevalent_data[,i],
@@ -144,9 +164,9 @@ prev_to_prevYLD<-function(prevalent_age_labels,
                         YLD_perUnit=YLD_perUnit#,
                         #filepath=filepath
       )
-      
-      YLD_object_by_year[[i]]<-tem
-    }
+      return(tem)
+      #YLD_object_by_year[[i]]<-tem
+    })
     
     names(YLD_object_by_year)<-paste0('Y',year_range)
     
