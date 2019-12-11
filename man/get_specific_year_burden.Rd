@@ -4,11 +4,11 @@
 \alias{get_specific_year_burden}
 \title{get_specific_year_burden() function}
 \usage{
-get_specific_year_burden(data, target_year_col = list(c(1:3), c(4:6), c(7:8),
-  c(9:11), c(12:14), c(15:17), c(18:20), c(21:23), c(24:27)),
-  target_year_col_lab = c("2004_2006", "2007_2009", "2010_2011", "2012_2014",
-  "2015_2017", "2018_2020", "2021_2023", "2024_2026", "2027_2030"),
-  perunit = 1000, digits = 2)
+get_specific_year_burden(data, target_year_col = list(c(1:3), c(4:6),
+  c(7:8), c(9:11), c(12:14), c(15:17), c(18:20), c(21:23), c(24:27)),
+  target_year_col_lab = c("2004_2006", "2007_2009", "2010_2011",
+  "2012_2014", "2015_2017", "2018_2020", "2021_2023", "2024_2026",
+  "2027_2030"), perunit = 1000, digits = 2)
 }
 \arguments{
 \item{data}{input a reAge_datatable_object object produced by get_specific_agegroup_burden() function}

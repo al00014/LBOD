@@ -5,8 +5,8 @@
 \title{get_specific_agegroup_burden() function}
 \usage{
 get_specific_agegroup_burden(data, target_age_group_row = list(c(6:10),
-  c(11:14), c(15:19)), target_age_group_lab = c("20-44", "45-64", "65-89"),
-  perunit = 1000, digits = 2)
+  c(11:14), c(15:19)), target_age_group_lab = c("20-44", "45-64",
+  "65-89"), perunit = 1000, digits = 2)
 }
 \arguments{
 \item{data}{input a burden_object object produced by get_burden() function}

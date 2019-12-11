@@ -5,8 +5,8 @@
 \title{get_specific_agegroup_cases() function}
 \usage{
 get_specific_agegroup_cases(cases_data, population_data,
-  population_weighted_data, target_age_group_row = list(c(6:10), c(11:14),
-  c(15:19)), desired_year = 2004:2011, age_adjusted = TRUE,
+  population_weighted_data, target_age_group_row = list(c(6:10),
+  c(11:14), c(15:19)), desired_year = 2004:2011, age_adjusted = TRUE,
   target_age_group_lab = c("20-44", "45-64", "65-89"), perunit = 1000,
   digits = 2)
 }

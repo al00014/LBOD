@@ -5,8 +5,8 @@
 \title{get_specific_agegroup_cases() function}
 \usage{
 get_specific_Yeargroup_cases(data, target_year_col = list(c(1:3), c(4:6),
-  c(7:8)), target_year_col_lab = c("2004_2006", "2007_2009", "2010_2011"),
-  age_adjusted = TRUE, perunit = 1000, digits = 2)
+  c(7:8)), target_year_col_lab = c("2004_2006", "2007_2009",
+  "2010_2011"), age_adjusted = TRUE, perunit = 1000, digits = 2)
 }
 \arguments{
 \item{data}{input a reAge_datatable_object object produced by get_specific_agegroup_cases() function}

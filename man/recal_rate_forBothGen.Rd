@@ -4,8 +4,8 @@
 \alias{recal_rate_forBothGen}
 \title{recal_rate_forBothGen() function}
 \usage{
-recal_rate_forBothGen(burden_male, burden_female, output_rate_unit = 1000,
-  population)
+recal_rate_forBothGen(burden_male, burden_female,
+  output_rate_unit = 1000, population)
 }
 \arguments{
 \item{burden_male}{a burden_object produced by get_burden() or get_burden_prev(). Only take in the male results.}
