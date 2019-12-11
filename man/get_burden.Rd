@@ -45,6 +45,10 @@ Current default lifetable is Coale and Demeny's West level 26.
 Mortality and incident cases should be in tabular form, row by age and column by year.
 The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+.
 }
+\details{
+* An update was made to solve the compatible issues with the input of one-column data. Input data can now support one column entry of mortality or incidence data.
+* Some for-loops were replaced with lapply(), maybe faster now.
+}
 \examples{
 get_burden(disease='lung',
                     year_range=2004:2011,

@@ -21,6 +21,9 @@
 #' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.
 #' @param ...
 #' @return A list of tabular YLL, YLD, DALY and their rates.
+#' @details
+#' * An update was made to solve the compatible issues with the input of one-column data. Input data can now support one column entry of mortality or incidence data.
+#' * Some for-loops were replaced with lapply(), maybe faster now.
 #' @keywords incident_data, mortality_data
 #' @export
 #' @examples
