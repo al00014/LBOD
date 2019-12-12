@@ -15,33 +15,35 @@
 #' @param disease a character indicator of which disease to extract, use when input_list=TRUE, the disease names can be found in description.
 #' @param gender a character indicator for gender.
 #' @param year_range a vector showing the range of years.
-#' @param incident_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of incidence cases.
-#' @param mortality_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
-#' @param population_std a dataframe of population, with row by age and column by year.
+#' @param incident_data a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of incidence cases.
+#' @param mortality_data a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
+#' @param population_std a dataframe of population, with row by age and column by year. Population input containing one-year data would be ok for analysis.
 #' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.
 #' @param ...
 #' @return A list of tabular YLL, YLD, DALY and their rates.
 #' @details
-#' * An update was made to solve the compatible issues with the input of one-column data. Input data can now support one column entry of mortality or incidence data.
-#' * Some for-loops were replaced with lapply(), maybe faster now.
+#' 1. An update was made to solve the compatible issues with the input of one-column data. 
+#'   Input data can now support one column entry of mortality or incidence data. 
+#' @details
+#' 2. Some for-loops were replaced with lapply(), maybe faster now.
 #' @keywords incident_data, mortality_data
 #' @export
 #' @examples
 #' get_burden(disease='lung',
-#'                     year_range=2004:2011,
-#'                     gender='female',
-#'                     mortality_data=mortality_cases_bycause_female,
-#'                     incident_data=incident_cases_bycause_female,
-#'					           input_list=TRUE,
-#'                     population_std=population_std,
-#'                     age_average_at_death=age_average_at_death,
-#'                     input_age_at_onset=age_at_onset,
-#'                     standard_LE=WHO_LE_table[,2],
-#'                     standard_LT_age=WHO_LE_table[,1],
-#'                     input_duration=c(0.63310,input_duration[,1]),
-#'                     input_Duration_interval=rbind(data.frame(Duration_lr=0.59965,Duration_up=2.43565),input_duration[,2:3]),
-#'                     input_DisabilityWeight=input_DisabilityWeight,
-#'                     input_DisabilityWeight_interval=input_DisabilityWeight_interval)
+#'            year_range=2004:2011,
+#'            gender='female',
+#'            mortality_data=mortality_cases_bycause_female,
+#'            incident_data=incident_cases_bycause_female,
+#'			  input_list=TRUE,
+#'            population_std=population_std,
+#'            age_average_at_death=age_average_at_death,
+#'            input_age_at_onset=age_at_onset,
+#'            standard_LE=WHO_LE_table[,2],
+#'            standard_LT_age=WHO_LE_table[,1],
+#'            input_duration=c(0.63310,input_duration[,1]),
+#'            input_Duration_interval=rbind(data.frame(Duration_lr=0.59965,Duration_up=2.43565),input_duration[,2:3]),
+#'            input_DisabilityWeight=input_DisabilityWeight,
+#'            input_DisabilityWeight_interval=input_DisabilityWeight_interval)
 get_burden<-function(disease='lung',
                      gender='male',
                      year_range=2004:2011,
@@ -202,11 +204,16 @@ get_burden<-function(disease='lung',
 #' @param disease a character indicator of which disease to extract, use when input_list=TRUE, the disease names can be found in description.
 #' @param gender a character indicator for gender.
 #' @param year_range a vector showing the range of years.
-#' @param prev_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of prevalence cases.
-#' @param mortality_data a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
-#' @param population_std a dataframe of population, with row by age and column by year.
+#' @param prev_data a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of prevalence cases.
+#' @param mortality_data a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.
+#' @param population_std a dataframe of population, with row by age and column by year. Population input containing one-year data would be ok for analysis.
 #' @param input_list indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.
 #' @param ...
+#' @details
+#' 1. An update was made to solve the compatible issues with the input of one-column data. 
+#'   Input data can now support one column entry of mortality or incidence data. 
+#' @details
+#' 2. Some for-loops were replaced with lapply(), maybe faster now.
 #' @return A list of tabular YLL, YLD, DALY and their rates.
 #' @keywords prev_data, mortality_data
 #' @export

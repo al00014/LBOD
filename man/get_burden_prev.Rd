@@ -22,13 +22,13 @@ get_burden_prev(disease = "lung", gender = "male",
 
 \item{year_range}{a vector showing the range of years.}
 
-\item{mortality_data}{a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.}
+\item{mortality_data}{a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of mortality cases.}
 
-\item{prev_data}{a list of diseases or a dataframe of disease. Each disease is represented in tabular data with row by age and column by year. It requires input of prevalence cases.}
+\item{prev_data}{a list of diseases or a dataframe of disease [containing one-year data would be ok for analysis]. Each disease is represented in tabular data with row by age and column by year. It requires input of prevalence cases.}
 
 \item{input_list}{indicates whether mortality_data and incident_data is a list by itself, the example dataset is a list sorted by cancer names, so the (default)input_list=TRUE.}
 
-\item{population_std}{a dataframe of population, with row by age and column by year.}
+\item{population_std}{a dataframe of population, with row by age and column by year. Population input containing one-year data would be ok for analysis.}
 }
 \value{
 A list of tabular YLL, YLD, DALY and their rates.
@@ -42,6 +42,12 @@ YLD also requires input of input_DisabilityWeight and input_DisabilityWeight_int
 Current default lifetable is Coale and Demeny's West level 26.
 Mortality and prevalent cases should be in tabular form, row by age and column by year.
 The default age group should be 19 groups, starting from 0~1, 1~4, and then by 5 years up to 85+.
+}
+\details{
+1. An update was made to solve the compatible issues with the input of one-column data. 
+  Input data can now support one column entry of mortality or incidence data.
+
+2. Some for-loops were replaced with lapply(), maybe faster now.
 }
 \examples{
 get_burden_prev(disease='lung',year_range=2004:2011,
